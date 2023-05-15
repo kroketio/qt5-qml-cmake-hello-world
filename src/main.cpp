@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QResource>
@@ -17,11 +17,11 @@ int main(int argc, char *argv[]) {
   Q_INIT_RESOURCE(assets);
 
   qputenv("QML_DISABLE_DISK_CACHE", "1");
-  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QCoreApplication::setApplicationName("qml_hello");
-  QCoreApplication::setOrganizationDomain("sanderf.nl");
-  QCoreApplication::setOrganizationName("sanderf.nl");
-  QGuiApplication app(argc, argv);
+  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QApplication::setApplicationName("qml_hello");
+  QApplication::setOrganizationDomain("kroket.io");
+  QApplication::setOrganizationName("Kroket Ltd.");
+  QApplication app(argc, argv);
 
   const QUrl url(QStringLiteral("qrc:/main.qml"));
 
@@ -32,5 +32,5 @@ int main(int argc, char *argv[]) {
   engine.rootContext()->setContextProperty("qtRuntimeVersion", qVersion());
   engine.load(url);
 
-  return QCoreApplication::exec();
+  return QApplication::exec();
 }

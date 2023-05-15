@@ -21,17 +21,6 @@ cmake -DCMAKE_PREFIX_PATH="/home/user/qt5.15/gcc_64" -Bbuild .
 
 Which will produce the executable `build/bin/qml_hello`, which is dynamically linked.
 
-When running the application, this is the output:
-
-```text
-SSL version:  "OpenSSL 1.1.1f  31 Mar 2020"
-SSL build:  "OpenSSL 1.1.1g  21 Apr 2020"
-qml: ApplicationWindow loaded!
-qml: QT runtime: 5.15.2
-```
-
-And of course the QML application itself is shown.
-
 ### Static binaries
 
 The `CMakeLists.txt` has an option to prepare static compilation, but it 

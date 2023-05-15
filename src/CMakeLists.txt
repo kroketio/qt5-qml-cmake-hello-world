@@ -14,7 +14,7 @@ file(GLOB SOURCE_FILES
 
 # Find Qt. Use a CMake definition to point it to your Qt installation
 # location (if necessary), e.g: -DCMAKE_PREFIX_PATH=/home/user/Qt/5.15.2/gcc_64
-find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Network Svg Xml WebSockets Quick Qml QuickControls2 QmlImportScanner Multimedia)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Network Svg Xml Quick Qml QuickControls2 QmlImportScanner)
 
 qt5_add_resources(RESOURCES assets.qrc)
 
@@ -91,7 +91,6 @@ target_link_libraries(qml_hello PUBLIC
         Qt5::QSvgPlugin
         Qt5::QSvgIconPlugin
         Qt5::Xml
-        Qt5::WebSockets
         Qt5::Quick
         Qt5::Qml
         Qt5::QuickControls2
