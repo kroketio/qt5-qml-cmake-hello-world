@@ -41,6 +41,47 @@ if(UNIX AND NOT APPLE AND NOT ANDROID)
     endif()
 endif()
 
+if(MINGW)
+    set(Boost_THREADAPI win32)
+    set(Boost_USE_STATIC_LIBS ON)
+    set(Boost_USE_STATIC_RUNTIME ON)
+    find_package(Iconv REQUIRED)
+
+    string(REGEX MATCH "^[^/]:/[^/]*" msys2_install_path "${CMAKE_C_COMPILER}")
+    message(STATUS "MSYS location: ${msys2_install_path}")
+    set(CMAKE_INCLUDE_PATH "${msys2_install_path}/mingw${ARCH_WIDTH}/include")
+    # This is necessary because otherwise CMake will make Boost libraries -lfoo
+    # rather than a full path. Unfortunately, this makes the shared libraries get
+    # linked due to a bug in CMake which misses putting -static flags around the
+    # -lfoo arguments.
+    set(DEFLIB ${msys2_install_path}/mingw${ARCH_WIDTH}/lib)
+    list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_DIRECTORIES ${DEFLIB})
+    list(REMOVE_ITEM CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES ${DEFLIB})
+
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wa,-mbig-obj")
+    set(EXTRA_LIBRARIES mswsock;ws2_32;iphlpapi;crypt32;bcrypt)
+    if(DEPENDS)
+	    set(ICU_LIBRARIES iconv)
+    else()
+        set(ICU_LIBRARIES icuio icuin icuuc icudt icutu iconv)
+    endif()
+
+    add_link_options(-Wl,--dynamicbase)
+    add_link_options(-Wl,--nxcompat)
+    add_link_options(-Wl,--high-entropy-va)
+endif()
+
+if(STATIC)
+    add_link_options(-static-libgcc)
+    add_link_options(-static-libstdc++)
+    if(MINGW)
+        add_link_options(-static)
+    endif()
+endif()
+
+add_link_options(-fno-strict-aliasing)
+add_link_options(-fno-strict-aliasing)
+
 # Find pthread
 find_package(Threads REQUIRED)
 
